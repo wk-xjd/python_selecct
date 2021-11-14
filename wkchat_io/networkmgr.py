@@ -122,6 +122,7 @@ class NetworkMgr:
         self.__send_channel_data(fd, define.MARKED_MSG_SEND_FAIL, define.MARKED_MSG_SEND_ERROR_ID)
         self.__send_channel_data(fd, define.REMOVE_SER_FD, define.MARKED_MSG_SEND_ERROR_ID)
         self.__mark_remove_channel_data(fd, define.MARKED_MSG_SEND_ERROR_ID)
+        fd.close()
 
     def __send_channel_data(self, fd: socket.socket, data: str, data_id):
         if self._channel:
