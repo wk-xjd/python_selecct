@@ -1,7 +1,7 @@
 from wkchat_io import networkmgr, wkchanel
 from multiprocessing import Pipe
 
-class ServerApp:
+class ConnectionApp:
     def __init__(self,  pipe: tuple(Pipe())):
         self._svr_channel = wkchanel.WKChanel(pipe)
         self._net_mgr = networkmgr.NetworkMgr()

@@ -2,7 +2,7 @@ from multiprocessing import Pipe
 from wkchat_svr.servermgr import ServerMgr
 from wkchat_io.wkchanel import WKChanel
 
-class ClientApp:
+class ServerApp:
     def __init__(self, pipe: tuple(Pipe())):
         self._channel = WKChanel(pipe)
         self._server_mgr = ServerMgr(self._channel)
@@ -13,6 +13,6 @@ class ClientApp:
             self._server_mgr.server()
             self._channel.send_all()
 
-def client_server_instance(pipe):
-    app = ClientApp(pipe)
+def server_process_instance(pipe):
+    app = ServerApp(pipe)
     app.run()
