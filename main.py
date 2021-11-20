@@ -14,9 +14,3 @@ if __name__ == "__main__":
     svr = ConnectionApp(connection_pipe)
     svr.run()
     sub_prco.join(3)
-
-
-
-
-
-

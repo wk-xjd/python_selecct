@@ -5,16 +5,10 @@
 """
 import queue
 import define
-
-
-def strbinary2num(s):
-    res = 0
-    for i in s:
-        res = res*256 + int(bin(ord(i)), 2)
-    return res
+from wkchat_utils.wkutils import bytebinary_to_num
 
 class MsgBuff:
-    def __init__(self, data=""):
+    def __init__(self, data=b""):
         self._raw_data = data
         self._msg_buff_queue = queue.Queue()
         self._msg_buff = ""
@@ -31,23 +25,23 @@ class MsgBuff:
             header = self._raw_data[0:8]
             length -= 8
             if header[:4] == define.TCP_MSG_HEADER:
-                self._msg_length = strbinary2num(header[4:])
+                print(header[4:])
+                self._msg_length = bytebinary_to_num(header[4:])
+                print(self._msg_buff)
                 self._raw_data = self._raw_data[8:]
 
         if self._msg_length > length:
-            self._msg_buff + self._raw_data
-            self._raw_data = ""
+            self._msg_buff + self._raw_data.decode("utf-8")
+            self._raw_data = b""
             self._msg_length -= length
         else:
-            self._msg_buff += self._raw_data[:self._msg_length]
-            self._raw_data[self._msg_length:]
+            self._msg_buff += self._raw_data[:self._msg_length].decode('utf-8')
+            self._raw_data = self._raw_data[self._msg_length:]
             self._msg_length = 0
 
         if self._msg_length == 0 and self._msg_buff:
             self._msg_buff_queue.put(self._msg_buff)
             self._msg_buff = ""
-            # 递归处理 raw_data
-            self.__deal_date()
 
     def put_data(self, data):
         self._raw_data = data
